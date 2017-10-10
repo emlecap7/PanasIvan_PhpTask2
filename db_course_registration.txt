@@ -1,0 +1,2 @@
+﻿CREATE TABLE `course_registration_task2`.`Course` ( `id` INT NOT NULL AUTO_INCREMENT , `code` VARCHAR(6) NOT NULL , `name` VARCHAR(50) NOT NULL , `description` TEXT NOT NULL , PRIMARY KEY (`id`(5)), UNIQUE (`code`(6))) ENGINE = InnoDB;
+CREATE TABLE `course_registration_task2`.`Student` ( `id` INT NOT NULL AUTO_INCREMENT , `firstname` INT NOT NULL , `lastname` INT NOT NULL ) ENGINE = InnoDB;

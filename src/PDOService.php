@@ -6,7 +6,7 @@ class PDOService implements IServiceDB
 	
 	public function connect() {	
         try {
-            $this->connectDB = new PDO("pgsql:host=".DB_HOST.";dbname=".DB_DATABASE.";user=".DB_USERNAME.";password=".DB_PASSWORD);
+            $this->connectDB = new PDO("mysql:host=".DB_HOST.";dbname=".DB_DATABASE.";charset=".DB_CHARSET, DB_USERNAME, DB_PASSWORD);
         }		
 		catch (PDOException $ex) {
 			printf("Connection failed: %s", $ex->getMessage());
@@ -17,41 +17,41 @@ class PDOService implements IServiceDB
 
 	public function getAllStudents()
 	{	
-		$films=array();
+		$students=array();
 		if ($this->connect()) {
-			if ($result = $this->connectDB->query('SELECT * FROM glossary.tuser')) {
+			if ($result = $this->connectDB->query('SELECT * FROM course_registration_task2.student')) {
 				$rows = $result->fetchAll(PDO::FETCH_ASSOC);
                 foreach($rows as $row){
-					$films[]=$row;
+					$students[]=$row;
                  } 
 			}
 		}
         $this->connectDB=null;
-		return $films;
+		return $students;
 	}
 	
-	public function getAllFilms()
+	public function getAllCourses()
 	{	
-		$films=array();
+		$courses=array();
 		if ($this->connect()) {
-			if ($result = $this->connectDB->query('SELECT * FROM film')) {
+			if ($result = $this->connectDB->query('SELECT * FROM course_registration_task2.course')) {
 				$rows = $result->fetchAll(PDO::FETCH_ASSOC);
                 foreach($rows as $row){
-					$films[]=new Film($row['film_id'], $row['title'], $row['description'], 
-										$row['release_year'], $row['language_id'], $row=['length']);
+					$courses[]=new Course($row['id'], $row['code'], $row['name'], 
+										$row['description']);
                  } 
 			}
 		}
         $this->connectDB=null;
-		return $films;
+		return $courses;
 	}
 
 	
-	public function getFilmByID($id)
+	public function getCourseByID($id)
 	{	
-		$film=null;
+		$course=null;
 		if ($this->connect()) {
-			if ($result = $this->connectDB->prepare('SELECT * FROM film WHERE film_id=:id')) {
+			if ($result = $this->connectDB->prepare('SELECT * FROM course_registration_task2.course WHERE id=:id')) {
 				$result->execute(array('id'=>$id));
 				//$result->execute(['id'=>$id]);
                 // $result->bindValue(':id', $id, PDO::PARAM_INT);
@@ -60,15 +60,15 @@ class PDOService implements IServiceDB
 				$numRows = $result->rowCount();
 				if ($numRows==1) {
 					$row=$result->fetch();
-					$film=new Film($row[0], $row[1], $row[2], $row[3], $row[4], $row[5]);
+					$course=new Film($row[0], $row[1], $row[3], $row[2]);
 				}
 			}
 		}
         $this->connectDB=null;
-	    return $film;	
+	    return $course;	
 	}
 
-    public function getAllFilmsInfo()
+    public function getAllCoursesInfo()
 	{
 		$films=array();
 		if ($this->connect()) {

@@ -3,7 +3,8 @@
 interface IServiceDB
 {
     public function connect();
-    public function getAllFilms();
-    public function getFilmByID($id);
-    public function getAllFilmsInfo();
+    public function getAllCourses();
+    public function getAllStudents();
+    public function getCourseByID($id);
+    public function getAllCoursesInfo();
 }

@@ -12,12 +12,11 @@ require_once "autoloader.php";
 			///$db=new MySQLiService();
 			$db=new PDOService();
 			echo "<pre>";
-			$films=$db->getAllStudents();
-			foreach ($films as $film) {
-				var_dump($film);
+			$students=$db->getAllCourses();
+			foreach ($students as $student) {
+				var_dump($student);
 			}
 			echo "</pre>";
-			echo ''.sizeof($films);
         ?>
     </body>
 </html>
